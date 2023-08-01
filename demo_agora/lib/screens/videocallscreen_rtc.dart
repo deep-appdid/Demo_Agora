@@ -4,26 +4,23 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
-class BroadcastScreen extends StatefulWidget {
-  const BroadcastScreen({Key? key}) : super(key: key);
+class VideoCallScreenRTC extends StatefulWidget {
+  const VideoCallScreenRTC({Key? key}) : super(key: key);
 
   @override
-  State<BroadcastScreen> createState() => _BroadcastScreenState();
+  State<VideoCallScreenRTC> createState() => _VideoCallScreenRTCState();
 }
 
-class _BroadcastScreenState extends State<BroadcastScreen> {
+class _VideoCallScreenRTCState extends State<VideoCallScreenRTC> {
   static const String appId = "e6e6d8707f6343d9a5c002c51c6a00cc";
 
-  String channelName = "voice";
-  String token =
-      "007eJxTYLi3+H2uy9r11+8X80tGVX2eZ7Nqhv6E0p6GSIGjfdNLN5gqMKSapZqlWJgbmKeZGZsYp1gmmiYbGBglmxommyUaGCQnH7hzIqUhkJHhfxQXKyMDBIL4rAxl+ZnJqQwMAOonIYk=";
+  String channelName = "<--Insert channel name here-->";
+  String token = "<--Insert authentication token here-->";
 
   int uid = 0; // uid of the local user
 
   int? _remoteUid; // uid of the remote user
   bool _isJoined = false; // Indicates if the local user has joined the channel
-  bool _isHost =
-      true; // Indicates whether the user has joined as a host or audience
   late RtcEngine agoraEngine; // Agora engine instance
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -80,25 +77,13 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
   }
 
   void join() async {
-    // Set channel options
-    ChannelMediaOptions options;
+    await agoraEngine.startPreview();
 
-    // Set channel profile and client role
-    if (_isHost) {
-      options = const ChannelMediaOptions(
-        clientRoleType: ClientRoleType.clientRoleBroadcaster,
-        channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
-      );
-      await agoraEngine.startPreview();
-    } else {
-      options = const ChannelMediaOptions(
-        clientRoleType: ClientRoleType.clientRoleAudience,
-        channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
-      );
-      // Set the latency level
-      audienceLatencyLevel:
-      AudienceLatencyLevelType.audienceLatencyLevelLowLatency;
-    }
+    // Set channel options including the client role and channel profile
+    ChannelMediaOptions options = const ChannelMediaOptions(
+      clientRoleType: ClientRoleType.clientRoleBroadcaster,
+      channelProfile: ChannelProfileType.channelProfileCommunication,
+    );
 
     await agoraEngine.joinChannel(
       token: token,
@@ -131,7 +116,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Get started with Broadcast Streaming'),
+            title: const Text('Get started with Video Calling'),
           ),
           body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -140,37 +125,29 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
               Container(
                 height: 240,
                 decoration: BoxDecoration(border: Border.all()),
-                child: Center(child: _videoPanel()),
+                child: Center(child: _localPreview()),
               ),
-              // Radio Buttons
-              Row(children: <Widget>[
-                Radio<bool>(
-                  value: true,
-                  groupValue: _isHost,
-                  onChanged: (value) => _handleRadioValueChange(value),
-                ),
-                const Text('Host'),
-                Radio<bool>(
-                  value: false,
-                  groupValue: _isHost,
-                  onChanged: (value) => _handleRadioValueChange(value),
-                ),
-                const Text('Audience'),
-              ]),
+              const SizedBox(height: 10),
+              //Container for the Remote video
+              Container(
+                height: 240,
+                decoration: BoxDecoration(border: Border.all()),
+                child: Center(child: _remoteVideo()),
+              ),
               // Button Row
               Row(
                 children: <Widget>[
                   Expanded(
                     child: ElevatedButton(
+                      onPressed: _isJoined ? null : () => {join()},
                       child: const Text("Join"),
-                      onPressed: () => {join()},
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
+                      onPressed: _isJoined ? () => {leave()} : null,
                       child: const Text("Leave"),
-                      onPressed: () => {leave()},
                     ),
                   ),
                 ],
@@ -181,44 +158,40 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
     );
   }
 
-  Widget _videoPanel() {
-    if (!_isJoined) {
+// Display local video preview
+  Widget _localPreview() {
+    if (_isJoined) {
+      return AgoraVideoView(
+        controller: VideoViewController(
+          rtcEngine: agoraEngine,
+          canvas: VideoCanvas(uid: 0),
+        ),
+      );
+    } else {
       return const Text(
         'Join a channel',
         textAlign: TextAlign.center,
       );
-    } else if (_isHost) {
-      // Show local video preview
-      return AgoraVideoView(
-        controller: VideoViewController(
-          rtcEngine: agoraEngine,
-          canvas: const VideoCanvas(uid: 0),
-        ),
-      );
-    } else {
-      // Show remote video
-      if (_remoteUid != null) {
-        return AgoraVideoView(
-          controller: VideoViewController.remote(
-            rtcEngine: agoraEngine,
-            canvas: VideoCanvas(uid: _remoteUid),
-            connection: RtcConnection(channelId: channelName),
-          ),
-        );
-      } else {
-        return const Text(
-          'Waiting for a host to join',
-          textAlign: TextAlign.center,
-        );
-      }
     }
   }
 
-// Set the client role when a radio button is selected
-  void _handleRadioValueChange(bool? value) async {
-    setState(() {
-      _isHost = (value == true);
-    });
-    if (_isJoined) leave();
+// Display remote user's video
+  Widget _remoteVideo() {
+    if (_remoteUid != null) {
+      return AgoraVideoView(
+        controller: VideoViewController.remote(
+          rtcEngine: agoraEngine,
+          canvas: VideoCanvas(uid: _remoteUid),
+          connection: RtcConnection(channelId: channelName),
+        ),
+      );
+    } else {
+      String msg = '';
+      if (_isJoined) msg = 'Waiting for a remote user to join';
+      return Text(
+        msg,
+        textAlign: TextAlign.center,
+      );
+    }
   }
 }

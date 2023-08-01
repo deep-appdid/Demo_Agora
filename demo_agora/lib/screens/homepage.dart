@@ -1,6 +1,7 @@
 import 'package:demo_agora/screens/broadcastscreen.dart';
 import 'package:demo_agora/screens/loginscreen.dart';
 import 'package:demo_agora/screens/videocallscreen.dart';
+import 'package:demo_agora/screens/videocallscreen_rtc.dart';
 import 'package:demo_agora/screens/voicecallscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 final FirebaseAuth auth = FirebaseAuth.instance;
                 await auth.signOut();
+
                 if (context.mounted) {
                   Navigator.pushReplacement(
                       context,
@@ -97,26 +99,65 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BroadcastScreen()));
-              },
-              child: Image.asset(
-                "assets/images/livestreaming.png",
-                height: 150,
-                width: 150,
-                fit: BoxFit.fill,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VideoCallScreenRTC()));
+                  },
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        "assets/images/videocall.png",
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.fill,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Video Call RTC",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BroadcastScreen()));
+                  },
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        "assets/images/livestreaming.png",
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.fill,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Live Streaming",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Live Streaming",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),
