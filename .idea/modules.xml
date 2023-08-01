@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/demo_agora/demo_agora.iml" filepath="$PROJECT_DIR$/demo_agora/demo_agora.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo_agora/android/demo_agora_android.iml" filepath="$PROJECT_DIR$/demo_agora/android/demo_agora_android.iml" />
+    </modules>
+  </component>
+</project>

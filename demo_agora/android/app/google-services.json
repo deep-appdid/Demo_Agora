@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "666828434973",
+    "project_id": "fir-agora-2770d",
+    "storage_bucket": "fir-agora-2770d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666828434973:android:0e9b3b8565440441d5e0f4",
+        "android_client_info": {
+          "package_name": "com.example.demo_agora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "666828434973-qk7ckqgjidn7gtm072mmskmf9a6rdn8s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO0rc5AmcHFCImXcomSp0UndNT6x0r68o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "666828434973-qk7ckqgjidn7gtm072mmskmf9a6rdn8s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
