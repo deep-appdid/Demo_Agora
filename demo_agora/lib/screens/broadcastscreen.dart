@@ -131,7 +131,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Get started with Broadcast Streaming'),
+            title: const Text('Broadcast Streaming'),
           ),
           body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

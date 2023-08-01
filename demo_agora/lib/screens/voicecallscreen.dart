@@ -111,7 +111,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Get started with Voice Calling'),
+            title: const Text('Voice Calling'),
           ),
           body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

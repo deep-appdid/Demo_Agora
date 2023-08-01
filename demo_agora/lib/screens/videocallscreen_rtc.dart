@@ -115,7 +115,7 @@ class _VideoCallScreenRTCState extends State<VideoCallScreenRTC> {
       scaffoldMessengerKey: scaffoldMessengerKey,
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Get started with Video Calling'),
+            title: const Text('Video Calling'),
           ),
           body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
