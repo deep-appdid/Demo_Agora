@@ -14,9 +14,9 @@ class VideoCallScreenRTC extends StatefulWidget {
 class _VideoCallScreenRTCState extends State<VideoCallScreenRTC> {
   static const String appId = "e6e6d8707f6343d9a5c002c51c6a00cc";
 
-  String channelName = "<--Insert channel name here-->";
-  String token = "<--Insert authentication token here-->";
-
+  String channelName = "voice";
+  String token =
+      "007eJxTYLi3+H2uy9r11+8X80tGVX2eZ7Nqhv6E0p6GSIGjfdNLN5gqMKSapZqlWJgbmKeZGZsYp1gmmiYbGBglmxommyUaGCQnH7hzIqUhkJHhfxQXKyMDBIL4rAxl+ZnJqQwMAOonIYk=";
   int uid = 0; // uid of the local user
 
   int? _remoteUid; // uid of the remote user
@@ -164,7 +164,7 @@ class _VideoCallScreenRTCState extends State<VideoCallScreenRTC> {
       return AgoraVideoView(
         controller: VideoViewController(
           rtcEngine: agoraEngine,
-          canvas: VideoCanvas(uid: 0),
+          canvas: const VideoCanvas(uid: 0),
         ),
       );
     } else {
