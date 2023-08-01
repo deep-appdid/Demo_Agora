@@ -42,7 +42,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> {
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(
-        RtcEngineContext(appId: "e6e6d8707f6343d9a5c002c51c6a00cc"));
+        const RtcEngineContext(appId: "e6e6d8707f6343d9a5c002c51c6a00cc"));
 
     await agoraEngine.enableVideo();
 
@@ -132,7 +132,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           children: [
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             // Container for the local video
@@ -192,7 +192,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> {
       return AgoraVideoView(
         controller: VideoViewController(
           rtcEngine: agoraEngine,
-          canvas: VideoCanvas(uid: 0),
+          canvas: const VideoCanvas(uid: 0),
         ),
       );
     } else {

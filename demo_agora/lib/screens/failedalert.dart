@@ -12,25 +12,25 @@ class FailedAlertDialog extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       content: Container(
         constraints: const BoxConstraints(minWidth: 200.0, minHeight: 200.0),
-        child:  Column(
+        child:  const Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.info_outline,
               size: 50.0,
               color: Color(0xff2454FF),
             ),
-            const SizedBox(height: 16.0),
-            const Text(
+            SizedBox(height: 16.0),
+            Text(
               'Failed',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8.0),
-            const Text(
+            SizedBox(height: 8.0),
+            Text(
               'Failed Try Again',
               textAlign: TextAlign.center,
             ),

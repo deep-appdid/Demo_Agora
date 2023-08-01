@@ -117,7 +117,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             children: [
               // Status text
-              Container(height: 40, child: Center(child: _status())),
+              SizedBox(height: 40, child: Center(child: _status())),
               // Button Row
               Row(
                 children: <Widget>[
@@ -144,12 +144,13 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
   Widget _status() {
     String statusText;
 
-    if (!_isJoined)
+    if (!_isJoined) {
       statusText = 'Join a channel';
-    else if (_remoteUid == null)
+    } else if (_remoteUid == null) {
       statusText = 'Waiting for a remote user to join...';
-    else
+    } else {
       statusText = 'Connected to remote user, uid:$_remoteUid';
+    }
 
     return Text(
       statusText,
